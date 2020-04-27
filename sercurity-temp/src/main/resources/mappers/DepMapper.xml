@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mp.mapper.DepMapper">
+
+<resultMap id="DepResultMap" type="Dep">
+    <id property="depid" column="depid"></id>
+    <result property="depname" column="depname"></result>
+    <!--<collection property="empList" column="depid" select="com.mp.mapper.EmpMapper.findByDepId"  ofType="com.mp.pojo.Emp">-->
+        <!--<id property="id" column="id"></id></collection>-->
+</resultMap>
+
+    <select id="findByDepId"  parameterType="int" resultType="Dep">
+         SELECT
+      `depid`,
+      `depname`
+    FROM `depinfo` WHERE `depid`=#{depid}
+    </select>
+
+</mapper>

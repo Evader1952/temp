@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+<body>
+<form class="layui-form" id="listForm" >
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">id：</label>
+        <div class="layui-input-block">
+            <input type="text"    name="id" id="id"  class="layui-input">
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名：</label>
+            <div class="layui-input-block">
+                <input type="text"    name="name" id="name"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别：</label>
+            <div class="layui-input-block">
+                <input type="text"   name="sex" id="sex"   class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">入职时间：</label>
+            <div class="layui-input-block">
+                <input type="text"  id="time"  name="time" class="layui-input">
+            </div>
+        </div>
+
+    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门编号</label>
+            <div class="layui-input-block">
+                <input type="text"  name="depid" id="depid"    class="layui-input">
+            </div>
+        </div>
+        <button type="button" class="layui-btn" lay-submit="" lay-filter="update">立即提交</button>
+</form>
+</body>
+<script>
+    layui.use(['form','layer','laydate'],function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        form.on("submit(update)",function (data) {
+            debugger;
+            var emp=$('#listForm').serialize();
+            // var emp={id:$("#id").val(),
+            //     name: $("#name").val(),
+            //     sex: $("#sex").val(),
+            //     time: $("#date").val(),
+            //     depid: $("#depid").val()};
+            // console.log(data.field);
+            //debugger;
+            $.ajax({
+                type: "post",
+                url: 'update',
+                dataType: "json",
+                data:emp,
+                success:function (dt) {
+                    //debugger;
+                    if (dt<=0)
+                    {//alert(dt);
+                        layer.closeAll();
+                        parent.location.reload();
+                    }
+                },
+            })
+        });
+
+        laydate.render({
+            elem: '#time' //指定元素
+            ,trigger: 'click'
+            ,theme: 'grid'
+            ,done:function (value) {
+                console.log(value);
+                //alert( $("#date").val());
+            }
+        });
+    });
+</script>
+</html>

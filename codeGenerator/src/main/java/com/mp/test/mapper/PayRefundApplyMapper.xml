@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mp.test.mapper.PayRefundApplyMapper">
+    <resultMap id="BaseResultMap" type="com.mp.test.entity.PayRefundApply">
+            <id column="id" property="id" jdbcType="BIGINT"/>
+            <result column="way_id" property="wayId" jdbcType="VARCHAR"/>
+            <result column="auth_no" property="authNo" jdbcType="VARCHAR"/>
+            <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR"/>
+            <result column="out_order_no" property="outOrderNo" jdbcType="VARCHAR"/>
+            <result column="amount" property="amount" jdbcType="VARCHAR"/>
+            <result column="red_pack_amount" property="redPackAmount" jdbcType="VARCHAR"/>
+            <result column="before_settle_amount" property="beforeSettleAmount" jdbcType="VARCHAR"/>
+            <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+            <result column="refund_time" property="refundTime" jdbcType="VARCHAR"/>
+            <result column="deal_time" property="dealTime" jdbcType="VARCHAR"/>
+            <result column="urgent_state" property="urgentState" jdbcType="INTEGER"/>
+            <result column="refund_state" property="refundState" jdbcType="INTEGER"/>
+            <result column="refund_type" property="refundType" jdbcType="INTEGER"/>
+            <result column="red_pack_state" property="redPackState" jdbcType="INTEGER"/>
+            <result column="reason" property="reason" jdbcType="VARCHAR"/>
+            <result column="alipay_transfer_order_no" property="alipayTransferOrderNo" jdbcType="VARCHAR"/>
+            <result column="alipay_name" property="alipayName" jdbcType="VARCHAR"/>
+            <result column="alipay_account" property="alipayAccount" jdbcType="VARCHAR"/>
+            <result column="transfer_amount" property="transferAmount" jdbcType="VARCHAR"/>
+            <result column="uid" property="uid" jdbcType="VARCHAR"/>
+            <result column="repayment_state" property="repaymentState" jdbcType="INTEGER"/>
+            <result column="back_file" property="backFile" jdbcType="VARCHAR"/>
+            <result column="transfer_file" property="transferFile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table">pay_refund_apply</sql>
+    <sql id="Base_Column_List">
+            `id`,
+            `way_id`,
+            `auth_no`,
+            `out_trade_no`,
+            `out_order_no`,
+            `amount`,
+            `red_pack_amount`,
+            `before_settle_amount`,
+            `create_time`,
+            `refund_time`,
+            `deal_time`,
+            `urgent_state`,
+            `refund_state`,
+            `refund_type`,
+            `red_pack_state`,
+            `reason`,
+            `alipay_transfer_order_no`,
+            `alipay_name`,
+            `alipay_account`,
+            `transfer_amount`,
+            `uid`,
+            `repayment_state`,
+            `back_file`,
+            `transfer_file`
+    </sql>
+    <sql id="Base_Where_Clause">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">
+                        AND `id`=#{id}
+                    </if>
+                    <if test="wayId != null and wayId != ''">
+                        AND `way_id`=#{wayId}
+                    </if>
+                    <if test="authNo != null and authNo != ''">
+                        AND `auth_no`=#{authNo}
+                    </if>
+                    <if test="outTradeNo != null and outTradeNo != ''">
+                        AND `out_trade_no`=#{outTradeNo}
+                    </if>
+                    <if test="outOrderNo != null and outOrderNo != ''">
+                        AND `out_order_no`=#{outOrderNo}
+                    </if>
+                    <if test="amount != null and amount != ''">
+                        AND `amount`=#{amount}
+                    </if>
+                    <if test="redPackAmount != null and redPackAmount != ''">
+                        AND `red_pack_amount`=#{redPackAmount}
+                    </if>
+                    <if test="beforeSettleAmount != null and beforeSettleAmount != ''">
+                        AND `before_settle_amount`=#{beforeSettleAmount}
+                    </if>
+                    <if test="createTime != null and createTime != ''">
+                        AND `create_time`=#{createTime}
+                    </if>
+                    <if test="refundTime != null and refundTime != ''">
+                        AND `refund_time`=#{refundTime}
+                    </if>
+                    <if test="dealTime != null and dealTime != ''">
+                        AND `deal_time`=#{dealTime}
+                    </if>
+                    <if test="urgentState != null">
+                        AND `urgent_state`=#{urgentState}
+                    </if>
+                    <if test="refundState != null">
+                        AND `refund_state`=#{refundState}
+                    </if>
+                    <if test="refundType != null">
+                        AND `refund_type`=#{refundType}
+                    </if>
+                    <if test="redPackState != null">
+                        AND `red_pack_state`=#{redPackState}
+                    </if>
+                    <if test="reason != null and reason != ''">
+                        AND `reason`=#{reason}
+                    </if>
+                    <if test="alipayTransferOrderNo != null and alipayTransferOrderNo != ''">
+                        AND `alipay_transfer_order_no`=#{alipayTransferOrderNo}
+                    </if>
+                    <if test="alipayName != null and alipayName != ''">
+                        AND `alipay_name`=#{alipayName}
+                    </if>
+                    <if test="alipayAccount != null and alipayAccount != ''">
+                        AND `alipay_account`=#{alipayAccount}
+                    </if>
+                    <if test="transferAmount != null and transferAmount != ''">
+                        AND `transfer_amount`=#{transferAmount}
+                    </if>
+                    <if test="uid != null and uid != ''">
+                        AND `uid`=#{uid}
+                    </if>
+                    <if test="repaymentState != null">
+                        AND `repayment_state`=#{repaymentState}
+                    </if>
+                    <if test="backFile != null and backFile != ''">
+                        AND `back_file`=#{backFile}
+                    </if>
+                    <if test="transferFile != null and transferFile != ''">
+                        AND `transfer_file`=#{transferFile}
+                    </if>
+            </trim>
+        </where>
+        <if test="offset == null and limit != null">
+            limit #{limit}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+        SELECT count(id)
+        FROM
+        <include refid="table"/>
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询 -->
+    <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="table"/>
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.mp.test.entity.PayRefundApply" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (
+            `id`,
+            `way_id`,
+            `auth_no`,
+            `out_trade_no`,
+            `out_order_no`,
+            `amount`,
+            `red_pack_amount`,
+            `before_settle_amount`,
+            `create_time`,
+            `refund_time`,
+            `deal_time`,
+            `urgent_state`,
+            `refund_state`,
+            `refund_type`,
+            `red_pack_state`,
+            `reason`,
+            `alipay_transfer_order_no`,
+            `alipay_name`,
+            `alipay_account`,
+            `transfer_amount`,
+            `uid`,
+            `repayment_state`,
+            `back_file`,
+            `transfer_file`
+        )
+        VALUES(
+            #{id},
+            #{wayId},
+            #{authNo},
+            #{outTradeNo},
+            #{outOrderNo},
+            #{amount},
+            #{redPackAmount},
+            #{beforeSettleAmount},
+            #{createTime},
+            #{refundTime},
+            #{dealTime},
+            #{urgentState},
+            #{refundState},
+            #{refundType},
+            #{redPackState},
+            #{reason},
+            #{alipayTransferOrderNo},
+            #{alipayName},
+            #{alipayAccount},
+            #{transferAmount},
+            #{uid},
+            #{repaymentState},
+            #{backFile},
+            #{transferFile}
+        )
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        (
+            `id`,
+            `way_id`,
+            `auth_no`,
+            `out_trade_no`,
+            `out_order_no`,
+            `amount`,
+            `red_pack_amount`,
+            `before_settle_amount`,
+            `create_time`,
+            `refund_time`,
+            `deal_time`,
+            `urgent_state`,
+            `refund_state`,
+            `refund_type`,
+            `red_pack_state`,
+            `reason`,
+            `alipay_transfer_order_no`,
+            `alipay_name`,
+            `alipay_account`,
+            `transfer_amount`,
+            `uid`,
+            `repayment_state`,
+            `back_file`,
+            `transfer_file`
+        )
+        VALUES
+        <foreach collection="list" item="cm" index="index" separator=",">
+            (
+            #{cm.id},
+            #{cm.wayId},
+            #{cm.authNo},
+            #{cm.outTradeNo},
+            #{cm.outOrderNo},
+            #{cm.amount},
+            #{cm.redPackAmount},
+            #{cm.beforeSettleAmount},
+            #{cm.createTime},
+            #{cm.refundTime},
+            #{cm.dealTime},
+            #{cm.urgentState},
+            #{cm.refundState},
+            #{cm.refundType},
+            #{cm.redPackState},
+            #{cm.reason},
+            #{cm.alipayTransferOrderNo},
+            #{cm.alipayName},
+            #{cm.alipayAccount},
+            #{cm.transferAmount},
+            #{cm.uid},
+            #{cm.repaymentState},
+            #{cm.backFile},
+            #{cm.transferFile}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="table"/>
+        WHERE id=#{id}
+    </select>
+
+    <update id="updateById" parameterType="com.mp.test.entity.PayRefundApply">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="wayId != null and wayId != ''">
+                 `way_id`=#{wayId},
+            </if>
+            <if test="authNo != null and authNo != ''">
+                 `auth_no`=#{authNo},
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                 `out_trade_no`=#{outTradeNo},
+            </if>
+            <if test="outOrderNo != null and outOrderNo != ''">
+                 `out_order_no`=#{outOrderNo},
+            </if>
+            <if test="amount != null and amount != ''">
+                 `amount`=#{amount},
+            </if>
+            <if test="redPackAmount != null and redPackAmount != ''">
+                 `red_pack_amount`=#{redPackAmount},
+            </if>
+            <if test="beforeSettleAmount != null and beforeSettleAmount != ''">
+                 `before_settle_amount`=#{beforeSettleAmount},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                 `create_time`=#{createTime},
+            </if>
+            <if test="refundTime != null and refundTime != ''">
+                 `refund_time`=#{refundTime},
+            </if>
+            <if test="dealTime != null and dealTime != ''">
+                 `deal_time`=#{dealTime},
+            </if>
+            <if test="urgentState != null">
+                 `urgent_state`=#{urgentState},
+            </if>
+            <if test="refundState != null">
+                 `refund_state`=#{refundState},
+            </if>
+            <if test="refundType != null">
+                 `refund_type`=#{refundType},
+            </if>
+            <if test="redPackState != null">
+                 `red_pack_state`=#{redPackState},
+            </if>
+            <if test="reason != null and reason != ''">
+                 `reason`=#{reason},
+            </if>
+            <if test="alipayTransferOrderNo != null and alipayTransferOrderNo != ''">
+                 `alipay_transfer_order_no`=#{alipayTransferOrderNo},
+            </if>
+            <if test="alipayName != null and alipayName != ''">
+                 `alipay_name`=#{alipayName},
+            </if>
+            <if test="alipayAccount != null and alipayAccount != ''">
+                 `alipay_account`=#{alipayAccount},
+            </if>
+            <if test="transferAmount != null and transferAmount != ''">
+                 `transfer_amount`=#{transferAmount},
+            </if>
+            <if test="uid != null and uid != ''">
+                 `uid`=#{uid},
+            </if>
+            <if test="repaymentState != null">
+                 `repayment_state`=#{repaymentState},
+            </if>
+            <if test="backFile != null and backFile != ''">
+                 `back_file`=#{backFile},
+            </if>
+            <if test="transferFile != null and transferFile != ''">
+                 `transfer_file`=#{transferFile},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+</mapper>

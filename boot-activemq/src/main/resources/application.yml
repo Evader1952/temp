@@ -1,0 +1,24 @@
+server:
+  port: 8088
+
+#activemq:
+#    broker-url: failover:(tcp://192.168.59.128:61617)
+#    user: admin
+#    password: admin
+#    enabled: true
+#    max-connections: 50
+#    expiry-timeout: 10000
+#  idle-timeout: 30000
+#
+activemq: #MQ消息中间件
+  broker-url: failover:(tcp://192.168.59.128:61617)
+  user: admin
+  password: admin
+  enabled: true
+  max-connections: 50
+  expiry-timeout: 10000
+  idle-timeout: 30000
+#  jms:
+#    pub-sub-domain: false
+#
+#myqueue: myque

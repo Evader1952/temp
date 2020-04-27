@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+<body>
+<form class="layui-form" id="listForm">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名：</label>
+        <div class="layui-input-block">
+            <input type="text"    name="name" id="name"  placeholder="请输入姓名"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别：</label>
+        <div class="layui-input-block">
+            <input type="text"   name="sex" id="sex"  placeholder="请输入性别"  class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">入职时间：</label>
+        <div class="layui-input-block">
+            <input type="text"  id="time" name="time" class="layui-input">
+        </div>
+    </div>
+</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门编号</label>
+        <div class="layui-input-block">
+            <input type="text"  name="depid" id="depid"   placeholder="请输入部门编号"  class="layui-input">
+        </div>
+    </div>
+
+
+    <button  type="button" class="layui-btn" lay-submit="" lay-filter="add">立即提交</button>
+</form>
+<script>
+    layui.use(['form','layer','laydate'],function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate=layui.laydate;
+        form.on("submit(add)",function (data) {
+            debugger;
+            // var emp={
+            //     name: $("#name").val(),
+            //     sex: $("#sex").val(),
+            //     time: $("#date").val(),
+            //     depid: $("#depid").val()};
+            var emp=$('#listForm').serialize();
+            //console.log(data.field);
+            debugger;
+            $.ajax({
+                type: "get",
+                url: 'add',  //从数据库查询返回的是个list
+                dataType: "json",
+                data:emp,
+                success:function (dt) {
+                    if (dt<=0)
+                    {
+                        layer.closeAll(); //疯狂模式，关闭所有层
+                        parent.location.reload();
+                    }
+                },
+            })
+        })
+
+        //初始化时间控件
+        laydate.render({
+            elem: '#time' //指定元素
+            ,trigger: 'click'
+            ,theme: 'grid'
+            ,done:function (value) {
+                console.log(value);
+                // alert( $("#date").val());
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mp.mapper.EmpMapper">
+
+    <resultMap id="EmpResultMap" type="EmpVo">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="sex" column="sex"></result>
+        <result property="time" column="time"></result>
+        <result property="depid" column="depid"></result>
+       <association property="dep" column="depid" select="com.mp.mapper.DepMapper.findByDepId"></association>
+    </resultMap>
+    <select id="findByEmpId" parameterType="int" resultMap="EmpResultMap">
+       SELECT
+      `id`,
+      `name`,
+      `sex`,
+      `time`,
+      `depid`
+    FROM `empinfo` WHERE id=#{id}
+    </select>
+
+    <select id="findByPage" parameterType="PageBean" resultMap="EmpResultMap">
+         SELECT
+      `id`,
+      `name`,
+      `sex`,
+      `time`,
+      `depid`
+    FROM `empinfo` limit #{page},#{limit}
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mp.test.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.mp.test.entity.User">
+            <id column="id" property="id" jdbcType="BIGINT"/>
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="icon" property="icon" jdbcType="VARCHAR"/>
+            <result column="path" property="path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="table">user</sql>
+    <sql id="Base_Column_List">
+            `id`,
+            `title`,
+            `icon`,
+            `path`
+    </sql>
+    <sql id="Base_Where_Clause">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">
+                        AND `id`=#{id}
+                    </if>
+                    <if test="title != null and title != ''">
+                        AND `title`=#{title}
+                    </if>
+                    <if test="icon != null and icon != ''">
+                        AND `icon`=#{icon}
+                    </if>
+                    <if test="path != null and path != ''">
+                        AND `path`=#{path}
+                    </if>
+            </trim>
+        </where>
+        <if test="offset == null and limit != null">
+            limit #{limit}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </sql>
+
+    <!-- 查询总数 -->
+    <select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+        SELECT count(id)
+        FROM
+        <include refid="table"/>
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询 -->
+    <select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="table"/>
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert" parameterType="com.mp.test.entity.User" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO
+        <include refid="table"/>
+        (
+            `id`,
+            `title`,
+            `icon`,
+            `path`
+        )
+        VALUES(
+            #{id},
+            #{title},
+            #{icon},
+            #{path}
+        )
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        (
+            `id`,
+            `title`,
+            `icon`,
+            `path`
+        )
+        VALUES
+        <foreach collection="list" item="cm" index="index" separator=",">
+            (
+            #{cm.id},
+            #{cm.title},
+            #{cm.icon},
+            #{cm.path}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="table"/>
+        WHERE id=#{id}
+    </select>
+
+    <update id="updateById" parameterType="com.mp.test.entity.User">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="title != null and title != ''">
+                 `title`=#{title},
+            </if>
+            <if test="icon != null and icon != ''">
+                 `icon`=#{icon},
+            </if>
+            <if test="path != null and path != ''">
+                 `path`=#{path},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+</mapper>

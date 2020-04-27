@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../static/layui/layui.js"></script>
+
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+</head>
+<body>
+<table class="layui-hide" id="test" lay-filter="table"></table>
+
+
+
+</body>
+
+<script>
+    //表单渲染
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            ,url:'findAllByPage'
+            ,toolbar: '#toolbarHead'
+
+            ,cols: [
+                [
+                {type:'checkbox',fixed: 'left'},
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'name', width:200, title: '名字',edit: 'text'}
+                ,{field:'sex', width:200, title: '性别', }
+                ,{field:'time', width:200, title: '入职时间'}
+                , {field: 'depname', width: 200, title: '部门名称',templet:'#depname'}
+                ,{title:'操作', toolbar:"#toolbarDemo"}
+
+            ]
+
+            ]
+            ,page: true
+        });
+    });
+</script>
+
+<script type="text/html" id="depname">
+    {{d.dep.depname}}
+</script>
+
+<script type="text/html" id="toolbarHead">
+    <div class="layui-btn-container">
+        <button  type="button" class="layui-btn layui-btn-danger" lay-event="getCheckData">批量删除</button>
+        <button  type="button" class="layui-btn layui-btn-warm" lay-event="addEmp">添加</button>
+    </div>
+</script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+    </div>
+</script>
+
+<script>
+    layui.use(['layer','table'], function(){
+        var layer = layui.layer;
+        var table = layui.table;
+
+        //注：tool是工具条事件名，table是table原始容器的属性 lay-filter="对应的值"
+        //删除功能 修改功能
+        table.on('tool(table)', function(obj){
+            switch(obj.event){
+                case 'delete':
+                    layer.confirm('真的删除行么',{icon: 3, title:'提示'}, function(index){
+                        $.ajax({
+                            type: "post",
+                            url: 'delete',
+                            data:{id:obj.data.id},
+                            success:function (dt) {
+                                if (dt<=0)
+                                {
+                                    layer.msg("删除成功");
+                                    window.location.reload();
+                                }
+                            }
+                        })
+                        layer.close(index);
+                        //向服务端发送删除指令
+                    });
+                    break;
+                case 'update':
+                    console.log(obj.data.id);
+                    layer.open({
+                        type: 2,
+                        title: '修改员工信息',
+                        maxmin: true,
+                        anim: 3,
+                        shadeClose: true, //点击遮罩关闭层
+                        area : ['600px' , '500px'],
+                        content:"toUpdate",
+                        success: function(layero, index){
+                            var body = layer.getChildFrame('body', index);
+                            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                            console.log(body.html()) //得到iframe页的body内容
+                            body.find('#name').val(obj.data.name);
+                            body.find('#sex').val(obj.data.sex);
+                            body.find('#time').val(obj.data.time);
+                            body.find('#depid').val(obj.data.depid);
+                            body.find('#id').val(obj.data.id);
+                        }
+                    });
+
+
+                    break;
+            };
+        });
+    });
+</script>
+
+
+
+
+<script>
+    layui.use(['layer','table'], function() {
+        var  table=layui.table;
+        var layer=layui.layer;
+
+        table.on('checkbox(table)', function(obj){
+
+            // console.log(obj.checked); //当前是否选中状态
+            console.log(obj.data.id); //选中行的相关数据
+            //  console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        });
+
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                //批量删除功能
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    var id = new Array();//声明数组
+                    layer.alert(data[0].id);
+
+                    for (var i in data) {
+                        id[i] = data[i].id;//得到复选框的值
+                    }
+                    console.log(id);
+
+                    $.ajax({
+                        url:'delMany',
+                        type: "post",
+                        traditional: true,//传数组一定要加的
+                        data: {
+                            'id': id
+                        },
+                        dataType: 'json',
+                        success: function (msg) {
+                            if (msg<=0)
+                            {
+                                layer.msg("删除成功");
+                                window.location.reload();
+                            }else {
+                                layer.msg("删除失败");
+                            }
+                        },
+                    });
+                    debugger;
+
+
+                    break;
+                //弹添加框
+                case 'addEmp':
+                    var data = checkStatus.data;
+                    layer.open({
+                        type: 2,
+                        title: '添加员工',
+                        maxmin: true,
+                        anim: 3,
+                        shadeClose: true, //点击遮罩关闭层
+                        area : ['600px' , '500px'],
+                        content:"toAdd",
+                        // time:3000,
+                        // end:function(){
+                        //     location.reload();//弹出层结束后，刷新主页面
+                        // }
+
+                    });
+                    break;
+            };
+        });
+
+
+    });
+</script>
+</html>
